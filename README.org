@@ -1,0 +1,5 @@
+#+TITLE: Project Graeae
+
+This is a repository to hold some common code that I share between projecs. It's named after the [[https://en.wikipedia.org/wiki/Graeae][Graeae]], three sisters who share an eye and a tooth between them.
+
+Any accompanying documentation will be [[https://necromuralist.github.io/graeae/][on github]].
