@@ -1,0 +1,15 @@
+#+BEGIN_COMMENT
+.. title: It Has To Start Somewhere
+.. slug: it-has-to-start-somewhere
+.. date: 2019-03-10 13:37:44 UTC-07:00
+.. tags: commentary
+.. category: Commentary
+.. link: 
+.. description: A post about this project.
+.. type: text
+
+#+END_COMMENT
+#+OPTIONS: ^:{}
+#+TOC: headlines 1
+
+This is the start of project /graeae/ - named after the [[https://en.wikipedia.org/wiki/Graeae][three sisters]] of Greek mythology who were sisters to the gorgons and shared one eye and one tooth between them. This is a place where I'll stick the code that I end up using in more than one project that is convenient, but not really substantial enough to make into separate projects.
