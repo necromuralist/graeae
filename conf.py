@@ -17,15 +17,15 @@ import time
 
 # Data about this site
 BLOG_AUTHOR = "Cloistered Monkey"  # (translatable)
-BLOG_TITLE = "Visions, Voices, Data"  # (translatable)
+BLOG_TITLE = "Graeae"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link. Don't forget the protocol (http/https)!
-SITE_URL = "https://necromuralist.github.io/Visions-Voices-Data/"
+SITE_URL = "https://necromuralist.github.io/graeae/"
 # This is the URL where Nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 # BASE_URL = "https://necromuralist.github.io/"
 BLOG_EMAIL = "necromuralist@protonmail.com"
-BLOG_DESCRIPTION = "Adumbrations of data."  # (translatable)
+BLOG_DESCRIPTION = "One eye shared between us."  # (translatable)
 
 # Nikola is multilingual!
 #
@@ -1168,8 +1168,8 @@ SEARCH_FORM = """
 <input type="hidden" name="k9" value="#D51920">
 <input type="hidden" name="kt" value="h">
 <input type="text" name="q" maxlength="255"
- placeholder="Search&hellip;" class="span2" style="margin-top: 4px;">
-<input type="submit" value="DuckDuckGo Search" style="visibility: hidden;">
+ placeholder="Search&hellip;" class="span2">
+<input type="submit" value="DuckDuckGo Search" style="visibility: hidden; display: none; padding-top: none">
 </form>
 <!-- End of custom search -->
 """ % SITE_URL
