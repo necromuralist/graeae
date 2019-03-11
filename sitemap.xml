@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+ <url>
+  <loc>https://necromuralist.github.io/graeae/</loc>
+  <lastmod>2019-03-10T23:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://necromuralist.github.io/graeae/2019/</loc>
+  <lastmod>2019-03-10T23:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://necromuralist.github.io/graeae/archive.html</loc>
+  <lastmod>2019-03-10T23:30:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://necromuralist.github.io/graeae/categories/</loc>
+  <lastmod>2019-03-10T23:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://necromuralist.github.io/graeae/categories/cat_commentary/</loc>
+  <lastmod>2019-03-10T23:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://necromuralist.github.io/graeae/categories/commentary/</loc>
+  <lastmod>2019-03-10T23:06:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://necromuralist.github.io/graeae/posts/it-has-to-start-somewhere/</loc>
+  <lastmod>2019-03-10T23:06:00Z</lastmod>
+ </url>
+</urlset>
