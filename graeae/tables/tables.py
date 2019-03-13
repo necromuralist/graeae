@@ -26,6 +26,7 @@ class CountPercentage:
      start: where to start the slice of the counts
      stop: end of slice (stop before this)
      drop_zeros: drop items with no count (for categorical data)
+     kwargs: Any arguments to value_counts
     """
     def __init__(self, data: pandas.Series,
                  show_counts: bool=True,
@@ -35,7 +36,8 @@ class CountPercentage:
                  number_format: str=",.2f",
                  start: int=None,
                  stop: int=None,
-                 drop_zeros: bool=True
+                 drop_zeros: bool=True,
+                 **kwargs
     ) -> None:
         self.data = data
         self.show_counts = show_counts
@@ -46,6 +48,7 @@ class CountPercentage:
         self.start = start
         self.stop = stop
         self.drop_zeros = drop_zeros
+        self.kwargs = kwargs
         self._counts = None
         self._total = None
         self._percentages = None
@@ -63,7 +66,7 @@ class CountPercentage:
     def counts(self) -> pandas.Series:
         """counts of values in the data"""
         if self._counts is None:
-            counts = self.data.value_counts()
+            counts = self.data.value_counts(**self.kwargs)
             if self.drop_zeros:
                 counts = counts[counts > 0]
             self._counts = counts[self.start:self.stop]
