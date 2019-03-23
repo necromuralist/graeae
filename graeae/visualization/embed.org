@@ -1,3 +1,25 @@
+#+TITLE: Embed Bokeh
+
+This holds code to help embed bokeh javascript into the posts.
+
+#+BEGIN_SRC python :tangle embed.py
+<<imports>>
+
+<<types>>
+
+
+<<embed-base>>
+
+
+<<embed-bokeh>>
+
+
+<<embed-holoview>>
+#+END_SRC
+
+* Imports
+
+#+BEGIN_SRC python :noweb-ref imports
 # from python
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -8,10 +30,14 @@ from bokeh.embed import autoload_static
 import bokeh.plotting
 import bokeh.resources
 import holoviews
-
+#+END_SRC
+* Types
+#+BEGIN_SRC python :noweb-ref types
 PathType = Union[str, Path]
-
-
+#+END_SRC
+* The Embedders
+** A Base
+#+begin_src python :noweb-ref embed-base
 class EmbedBase:
     """Embed a bokeh figure
 
@@ -86,7 +112,7 @@ class EmbedBase:
         if self._export_string is None:
             self._export_string = textwrap.dedent(
                 """#+begin_export html{}
-#+end_export""".format(self.source))
+,#+end_export""".format(self.source))
         return self._export_string
 
     @abstractmethod
@@ -107,8 +133,9 @@ class EmbedBase:
         self._source = None
         self._figure = None
         return
-
-
+#+end_src
+** Embed Bokeh
+#+BEGIN_SRC python :noweb-ref embed-bokeh
 class EmbedBokeh(EmbedBase):
     """Class to embed a holoviews plot as bokeh
 
@@ -174,8 +201,9 @@ class EmbedBokeh(EmbedBase):
         with open(self.folder_path.joinpath(self.file_name), "w") as writer:
             writer.write(self.javascript)
         return
-
-
+#+END_SRC
+** Embed Holoview
+#+begin_src python :noweb-ref embed-holoview
 class EmbedHoloview(EmbedBase):
     """Creates an embedding for generated Holoview HTML
 
@@ -189,7 +217,7 @@ class EmbedHoloview(EmbedBase):
      make_parents: if creating a folder add the missing folders in the path
     """
     def __init__(self, width_in_percent: int=100, height_in_pixels: int=800, 
-                 *args, **kwargs) -> None:
+                 ,*args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.width_in_percent = width_in_percent
         self.height_in_pixels = height_in_pixels
@@ -215,3 +243,4 @@ class EmbedHoloview(EmbedBase):
   <p>Figure Missing</p>
 </object>'''.format(self.file_name, self.width_in_percent, self.height_in_pixels)
         return
+#+end_src

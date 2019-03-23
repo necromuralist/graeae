@@ -1,1 +1,1 @@
-from .embed_bokeh import EmbedBokeh
+from .embed import EmbedBokeh, EmbedHoloview
