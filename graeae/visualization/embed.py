@@ -19,24 +19,27 @@ class EmbedBase:
      plot: a hvplot to embed
      folder_path: path to the folder to save the file
      file_name: name of the file to save the javascript in
+     add_extension: add file-extension to file name
      create_folder: if the folder doesn't exist create it
      make_parents: if creating a folder add the missing folders in the path
     """
     def __init__(self, plot: holoviews.core.overlay.NdOverlay,
                  file_name: str,
                  folder_path: PathType,
+                 add_extension: bool=False,
                  create_folder: bool=True,
                  make_parents: bool=True) -> None:
         self.plot = plot
         self.create_folder = create_folder
         self.make_parents = make_parents
+        self.add_extension = add_extension
         self._folder_path = None
         self.folder_path = folder_path
+        self._file_extension = None
         self._file_name = None
         self.file_name = file_name
         self._source = None
         self._export_string = None
-        self._file_extension = None
         return
 
     @property
@@ -70,8 +73,9 @@ class EmbedBase:
         Args:
          name: name to save the output (without the folder)
         """
-        name = Path(name)
-        self._file_name = "{}.{}".format(name.stem, self.file_extension)
+        name = Path(name)       
+        self._file_name = ("{}.{}".format(name.stem, self.file_extension)
+                           if self.add_extension else name.stem)
         return
 
     @property
@@ -85,7 +89,8 @@ class EmbedBase:
         """The string to embed the figure into org-mode"""
         if self._export_string is None:
             self._export_string = textwrap.dedent(
-                """#+begin_export html{}
+                """#+begin_export html
+{}
 #+end_export""".format(self.source))
         return self._export_string
 
@@ -211,7 +216,7 @@ class EmbedHoloview(EmbedBase):
     def source(self) -> str:
         """The HTML to export"""
         if self._source is None:
-            self._source = '''<object type="text/html" data="{}" style="width:{}%" height={}>
+            self._source = '''<object type="text/html" data="{}.html" style="width:{}%" height={}>
   <p>Figure Missing</p>
 </object>'''.format(self.file_name, self.width_in_percent, self.height_in_pixels)
-        return
+        return self._source
