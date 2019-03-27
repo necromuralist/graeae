@@ -73,7 +73,7 @@ class EmbedBase:
         Args:
          name: name to save the output (without the folder)
         """
-        name = Path(name)       
+        name = Path(name)
         self._file_name = ("{}.{}".format(name.stem, self.file_extension)
                            if self.add_extension else name.stem)
         return
@@ -130,14 +130,14 @@ class EmbedBokeh(EmbedBase):
         self._javascript = None
         self._figure = None
         return
-    
+
     @property
     def file_extension(self) -> str:
         """The extension for the generated file"""
         if self._file_extension is None:
             self._file_extension = "js"
         return self._file_extension
-    
+
     @property
     def figure(self) -> bokeh.plotting.Figure:
         """The Figure to plot"""
@@ -187,6 +187,7 @@ class EmbedHoloview(EmbedBase):
     Args:
      width_in_percent: how wide to make the figure
      height_in_pixels: how tall to make the figure
+     add_link: add link to the external file
      plot: a hvplot to embed
      folder_path: path to the folder to save the file
      file_name: name of the file to save the javascript in
@@ -194,8 +195,10 @@ class EmbedHoloview(EmbedBase):
      make_parents: if creating a folder add the missing folders in the path
     """
     def __init__(self, width_in_percent: int=100, height_in_pixels: int=800, 
+                 add_link: bool=True,
                  *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.add_link = add_link
         self.width_in_percent = width_in_percent
         self.height_in_pixels = height_in_pixels
         return
@@ -220,3 +223,19 @@ class EmbedHoloview(EmbedBase):
   <p>Figure Missing</p>
 </object>'''.format(self.file_name, self.width_in_percent, self.height_in_pixels)
         return self._source
+
+    def create_external_link(self, message: str="Link To Plot") -> None:
+        """creates an external file and links to it
+
+        Args:
+         message: text for the link
+        """
+        self.save_figure()
+        print("[[file:{}][{}]]".format(message))
+        return
+
+    def __call__(self) -> None:
+        """Renders the plot"""
+        super()()
+        if self.add_link:            
+            print("\n[[file:{}][{}]]".format(message))
