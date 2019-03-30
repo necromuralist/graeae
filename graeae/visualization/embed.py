@@ -188,6 +188,7 @@ class EmbedHoloview(EmbedBase):
      width_in_percent: how wide to make the figure
      height_in_pixels: how tall to make the figure
      add_link: add link to the external file
+     link_message: message to put in link
      plot: a hvplot to embed
      folder_path: path to the folder to save the file
      file_name: name of the file to save the javascript in
@@ -195,12 +196,13 @@ class EmbedHoloview(EmbedBase):
      make_parents: if creating a folder add the missing folders in the path
     """
     def __init__(self, width_in_percent: int=100, height_in_pixels: int=800, 
-                 add_link: bool=True,
+                 add_link: bool=True, link_message: str="Link to Plot",
                  *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.add_link = add_link
         self.width_in_percent = width_in_percent
         self.height_in_pixels = height_in_pixels
+        self.link_message = link_message
         return
 
     @property
@@ -236,6 +238,7 @@ class EmbedHoloview(EmbedBase):
 
     def __call__(self) -> None:
         """Renders the plot"""
-        super()()
+        super().__call__()
         if self.add_link:            
-            print("\n[[file:{}][{}]]".format(message))
+            print("\n[[file:{}.html][{}]]".format(self.file_name, self.link_message))
+        return
