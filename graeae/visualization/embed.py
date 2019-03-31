@@ -196,7 +196,7 @@ class EmbedHoloview(EmbedBase):
      make_parents: if creating a folder add the missing folders in the path
     """
     def __init__(self, width_in_percent: int=100, height_in_pixels: int=800, 
-                 add_link: bool=True, link_message: str="Link to Plot",
+                 add_link: bool=False, link_message: str="Link to Plot",
                  *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.add_link = add_link
