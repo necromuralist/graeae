@@ -1,6 +1,7 @@
 from functools import partial
 
 from tabulate import tabulate
+import holoviews
 import pandas
 
 org_table = partial(tabulate, headers="keys", tablefmt="orgtbl",
@@ -53,6 +54,7 @@ class CountPercentage:
         self._total = None
         self._percentages = None
         self._table = None
+        self._holoviews_table = None
         return
 
     @property
@@ -102,6 +104,13 @@ class CountPercentage:
                     self._table[CountColumns.percentage] = percentages.values
         return self._table
     
+    @property
+    def holoviews_table(self) -> holoviews.Table:
+        """converts the table to a holoviews object"""
+        if self._holoviews_table is None:
+            self._holoviews_table = holoviews.Table(self.table)
+        return self._holoviews_table
+
     def __call__(self):
         """Prints the Table"""
         print(tabulate(self.table, 

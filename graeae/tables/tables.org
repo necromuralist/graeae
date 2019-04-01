@@ -23,9 +23,10 @@ These are meant to help print tables in org-mode.
 #+BEGIN_SRC python :noweb-ref python-imports
 from functools import partial
 #+END_SRC
-
+** PyPi
 #+begin_src python :noweb-ref pypi-imports
 from tabulate import tabulate
+import holoviews
 import pandas
 #+END_SRC
 
@@ -90,6 +91,7 @@ class CountPercentage:
         self._total = None
         self._percentages = None
         self._table = None
+        self._holoviews_table = None
         return
 
     @property
@@ -139,6 +141,13 @@ class CountPercentage:
                     self._table[CountColumns.percentage] = percentages.values
         return self._table
     
+    @property
+    def holoviews_table(self) -> holoviews.Table:
+        """converts the table to a holoviews object"""
+        if self._holoviews_table is None:
+            self._holoviews_table = holoviews.Table(self.table)
+        return self._holoviews_table
+
     def __call__(self):
         """Prints the Table"""
         print(tabulate(self.table, 
