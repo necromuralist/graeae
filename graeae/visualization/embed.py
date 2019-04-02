@@ -163,6 +163,7 @@ class EmbedBokeh(EmbedBase):
             self._javascript, self._source = autoload_static(self.figure,
                                                              self.bokeh_source,
                                                              self.file_name)
+            self._source = self._source.strip()
         return self._source
 
     @property
@@ -172,6 +173,7 @@ class EmbedBokeh(EmbedBase):
             self._javascript, self._source = autoload_static(self.figure,
                                                              self.bokeh_source,
                                                              self.file_name)
+            self._source = self._source.strip()
         return self._javascript
 
     def save_figure(self) -> None:
