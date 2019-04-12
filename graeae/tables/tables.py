@@ -111,6 +111,10 @@ class CountPercentage:
             self._holoviews_table = holoviews.Table(self.table)
         return self._holoviews_table
 
+    def __len__(self) -> int:
+        """The length of the table"""
+        return len(self.table)
+
     def __call__(self):
         """Prints the Table"""
         print(tabulate(self.table, 
