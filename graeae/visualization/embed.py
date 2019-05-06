@@ -216,7 +216,9 @@ class EmbedHoloview(EmbedBase):
     
     def save_figure(self) -> None:
         """Saves the holoview"""
-        holoviews.save(self.plot, self.folder_path.joinpath(self.file_name))
+        holoviews.save(self.plot, 
+                       filename=self.folder_path.joinpath(self.file_name), 
+                       fmt="html")
         return
 
     @property
