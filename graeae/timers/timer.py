@@ -40,7 +40,8 @@ class Timer:
         self.beep = beep
         self.message = message
         self.emit = emit
-        if prefix:
+        self.prefix = prefix
+        if self.prefix:
             self.prefix = f"({prefix}) "
         self._output = output
         self._speaker = None
