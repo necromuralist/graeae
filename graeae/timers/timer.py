@@ -30,14 +30,18 @@ class Timer:
     Args:
      speak: If true, say something at the end
      message: what to say
+     prefix: something to add to the strings
      emit: if False, just stores the times
      output: callable to send the output to
     """
     def __init__(self, beep: bool=True, message: str="All Done",
+                 prefix: str = "",
                  emit:bool=True, output=None) -> None:
         self.beep = beep
         self.message = message
         self.emit = emit
+        if prefix:
+            self.prefix = f"({prefix}) "
         self._output = output
         self._speaker = None
         self.started = None
@@ -62,18 +66,23 @@ class Timer:
         """Sets the started time"""
         self.started = datetime.now()
         if self.emit:
-            self.output("Started: {}".format(self.started))
+            self.output(f"{self.prefix}Started: {self.started}")
         return
 
     def end(self) -> None:
         """Emits the end and elapsed time"""
         self.ended = datetime.now()
         if self.emit:
-            self.output("Ended: {}".format(self.ended))
-            self.output("Elapsed: {}".format(self.ended - self.started))
+            self.output(f"{self.prefix}Ended: {self.ended}")
+            self.output(f"{self.prefix}Elapsed: {self.ended - self.started}")
         if SPEAKABLE and self.beep:
-            self.speaker.say(self.message)
-            self.speaker.runAndWait()
+            self(self.message)
+        return
+    
+    def __call__(self, message: str) -> None:
+        """Sends a message to the speaker"""
+        self.speaker.say(message)
+        self.speaker.runAndWait()
         return
 
     stop = end
