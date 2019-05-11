@@ -6,8 +6,8 @@ import logging.handlers
 
 SysLogDefaults = Namespace(
     address="/dev/log",
-    console_format="%(name)s: %(message)s",
-    log_format=("%(asctime)s: %(name)s: %(levelname)s: %(module)s:"
+    console_format="%(asctime)s %(name)s %(funcName)s: %(message)s",
+    log_format=("%(asctime)s: %(levelname)s: %(name)s:"
                 " %(funcName)s %(message)s"),
 )
 
@@ -41,7 +41,7 @@ class SysLogBuilder:
     def sys_formatter(self) -> logging.Formatter:
         """Formatter for the system log"""
         if self._sys_formatter is None:
-            self._sys_formatter = logging.Formatter(self.console_format)
+            self._sys_formatter = logging.Formatter(self.log_format)
         return self._sys_formatter
 
     @property
