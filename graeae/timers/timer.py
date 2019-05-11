@@ -97,3 +97,8 @@ class Timer:
         """Stops the timer"""
         self.end()
         return
+
+    def __del__(self) -> None:
+        """Stops the speaker"""
+        self.speaker.stop()
+        return
