@@ -34,10 +34,10 @@ class Timer:
      emit: if False, just stores the times
      output: callable to send the output to
     """
-    def __init__(self, beep: bool=True, message: str="All Done",
+    def __init__(self, speak: bool=True, message: str="All Done",
                  prefix: str = "",
                  emit:bool=True, output=None) -> None:
-        self.beep = beep
+        self.speak = speak
         self.message = message
         self.emit = emit
         self.prefix = prefix
@@ -76,7 +76,7 @@ class Timer:
         if self.emit:
             self.output(f"{self.prefix}Ended: {self.ended}")
             self.output(f"{self.prefix}Elapsed: {self.ended - self.started}")
-        if SPEAKABLE and self.beep:
+        if SPEAKABLE and self.speak:
             self(self.message)
         return
     
