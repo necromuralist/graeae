@@ -1,0 +1,63 @@
+#+TITLE: The Environment Loader
+#+begin_src python :tangle environment.py
+<<imports>>
+
+<<environment-loader>>
+#+end_src
+* Imports
+#+begin_src python :noweb-ref imports
+# Python
+from pathlib import Path
+import os
+
+# PyPi
+from colorama import Style, Fore
+from dotenv import load_dotenv
+
+# this project
+from graeae import SysLogBase
+#+end_src
+* The Environment Loader
+#+begin_src python :noweb-ref environment-loader
+class EnvironmentLoader(SysLogBase):
+    """Loads the environment variables
+
+    UML:
+     SysLogBase <|-- EnvironmentLoader
+
+    Args:
+     path: path to the env file
+    """
+    def __init__(self, path: str="~/.env") -> None:
+        super().__init__()
+        self.path = path
+        self._environment_path = None
+        self._environment = None
+        return
+    
+    @property
+    def environment_path(self) -> Path:
+        """The path to the environment file"""
+        if self._environment_path is None:
+            self._environment_path = Path(self.path).expanduser()
+            assert self._environment_path.is_file(),\
+                f"{Style.BRIGHT}{Fore.RED}'{self.path}' is not a file"
+            self.log.debug(f"Environment Path: {self._environment_path}")
+        return self._environment_path
+    
+    @property
+    def environment(self) -> dict:
+        """The enviroment variables"""
+        if self._environment is None:
+            load_dotenv(self.environment_path, override=True)
+            self._environment = os.environ
+        return self._environment
+    
+    def __getitem__(self, variable: str) -> str:
+        """Get the value for the environment variable
+
+        Args:
+         variable: name of the environment variable to get
+        """
+        return self.environment.get(variable)
+#+end_src
