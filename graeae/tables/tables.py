@@ -11,7 +11,7 @@ org_table = partial(tabulate, headers="keys", tablefmt="orgtbl",
 class CountColumns:
     index = "Value"
     count = "Count"
-    percentage = "Percentage"
+    percentage = "Percent (%)"
 
 
 class CountPercentage:
@@ -27,6 +27,7 @@ class CountPercentage:
      start: where to start the slice of the counts
      stop: end of slice (stop before this)
      drop_zeros: drop items with no count (for categorical data)
+     value_label: header label for the things being counted
      kwargs: Any arguments to value_counts
     """
     def __init__(self, data: pandas.Series,
@@ -34,9 +35,10 @@ class CountPercentage:
                  show_percentages: bool=True,
                  decimal_places: int=2,
                  use_fraction: bool=False,
-                 number_format: str=",.2f",
+                 number_format: str=(",.0f", ",.0f", ",.2f"),
                  start: int=None,
                  stop: int=None,
+                 value_label: str=None,
                  drop_zeros: bool=True,
                  **kwargs
     ) -> None:
@@ -49,6 +51,7 @@ class CountPercentage:
         self.start = start
         self.stop = stop
         self.drop_zeros = drop_zeros
+        self.value_label = value_label
         self.kwargs = kwargs
         self._counts = None
         self._total = None
@@ -90,16 +93,19 @@ class CountPercentage:
          ConfigurationError: None of the columns was set
         """
         if self._table is None:
+            VALUE_LABEL = (self.value_label if self.value_label
+                           else CountColumns.index)
+
             if not any((self.show_counts, self.show_percentages)):
                 raise ConfigurationError("Need to set at least one thing to show")
             if self.show_counts:
                 self._table = self.counts.reset_index()
-                self._table.columns = [CountColumns.index, CountColumns.count]
+                self._table.columns = [VALUE_LABEL, CountColumns.count]
             if self.show_percentages:
                 percentages = self.percentages.round(self.decimal_places)
                 if self._table is None:
                     self._table = percentages.reset_index()
-                    self._table.columns = [CountColumns.index, CountColumns.percentage]
+                    self._table.columns = [VALUE_LABEL, CountColumns.percentage]
                 else:
                     self._table[CountColumns.percentage] = percentages.values
         return self._table
