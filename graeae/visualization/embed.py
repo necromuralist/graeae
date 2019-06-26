@@ -246,3 +246,6 @@ class EmbedHoloview(EmbedBase):
         if self.add_link:            
             print("\n[[file:{}.html][{}]]".format(self.file_name, self.link_message))
         return
+
+# because I keep forgetting
+EmbedHoloviews = EmbedHoloview

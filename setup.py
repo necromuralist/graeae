@@ -18,5 +18,12 @@ setup(name='graeae',
       platforms=['linux'],
       url='https://github.com/necromuralist/graeae',
       author_email="necromuralist@pm.me",
+      install_requires=[
+          "bokeh",
+          "colorama",
+          "holoviews",
+          "requests",
+          "python-dotenv",
+      ]
       packages=find_packages(),
       )
