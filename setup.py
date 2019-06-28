@@ -26,4 +26,9 @@ setup(name='graeae',
           "python-dotenv",
       ]
       packages=find_packages(),
+      install_requires=[
+          "colorama",
+          "python-dotenv",
+          "pyttsx3",
+      ]
       )
