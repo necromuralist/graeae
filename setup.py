@@ -22,13 +22,9 @@ setup(name='graeae',
           "bokeh",
           "colorama",
           "holoviews",
-          "requests",
-          "python-dotenv",
-      ]
-      packages=find_packages(),
-      install_requires=[
-          "colorama",
           "python-dotenv",
           "pyttsx3",
-      ]
+          "requests",
+      ],
+      packages=find_packages(),
       )
