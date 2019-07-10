@@ -1,12 +1,17 @@
 aiohttp
+colorama
+expects
 ghp-import2
 hvplot
 jupyter
 Nikola
 ptpython
+pytest-bdd
+pytest-xdist
 python-dotenv
 pyttsx3
 sklearn
+tabulate
 textblob
 virtualfish
 watchdog
