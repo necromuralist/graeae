@@ -95,3 +95,40 @@ class ZipDownloader(SysLogBase):
         """calls the download method"""
         self.download()
         return
+
+
+class PureZipDownloader:
+    """Downloads a zip file and unpacks it
+
+    Args:
+     url: URL to the zip file
+     target: directory to unzip the contents into
+     verbose: whether to emit statements
+    """
+    def __init__(self, url: str, target: str, verbose: bool=True):
+        self.url = url
+        self.target = Path(target).expanduser()
+        self.verbose = verbose
+        return
+    
+    def download(self) -> None:
+        if not self.target.is_dir():
+            if self.verbose:
+                print("Downloading the zip file")
+            response = requests.get(self.url)
+            with tempfile.NamedTemporaryFile() as zip_file:
+                zip_file.write(response.content)
+                with zipfile.ZipFile(zip_file) as unzipper:
+                    unzipper.extractall(self.target)
+            if self.verbose:
+                print("Finished downloading and unzipping the file")
+        else:
+            if self.verbose:
+                print("Files exist, not downloading")
+        assert self.target.is_dir()
+        return
+    
+    def __call__(self):
+        """calls the download method"""
+        self.download()
+        return
