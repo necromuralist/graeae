@@ -96,7 +96,7 @@ class SubPathLoader(SysLogBase):
     
     @property
     def environment_path(self) -> Path:
-        """Path to the sub-envirnoment"""
+        """Path to the sub-environment"""
         if self._environment_path is None:
             self._environment_path = Path(
                 self.root_environment[self.sub_key]).expanduser()
