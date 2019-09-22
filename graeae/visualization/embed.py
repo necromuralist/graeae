@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Union
 import textwrap
+
 # from pypi
 from bokeh.embed import autoload_static
 import bokeh.plotting
@@ -205,6 +206,7 @@ class EmbedHoloview(EmbedBase):
         self.width_in_percent = width_in_percent
         self.height_in_pixels = height_in_pixels
         self.link_message = link_message
+        holoviews.extension("bokeh")
         return
 
     @property
