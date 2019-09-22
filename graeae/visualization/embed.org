@@ -151,9 +151,11 @@ class EmbedBokeh(EmbedBase):
      file_name: name of the file to save the javascript in
      create_folder: if the folder doesn't exist create it
      make_parents: if creating a folder add the missing folders in the path
+     use_cdn: whether to use bokeh CDN
     """
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, use_cdn: bool=True, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.use_cdn = use_cdn
         self._bokeh_source = None
         self._javascript = None
         self._figure = None
@@ -181,7 +183,8 @@ class EmbedBokeh(EmbedBase):
         """The javascript source
         """
         if self._bokeh_source is None:
-            self._bokeh_source = bokeh.resources.CDN
+            self._bokeh_source = (bokeh.resources.CDN if self.use_cdn
+                                  else bokeh.resources.INLINE)
         return self._bokeh_source
 
     @property

@@ -33,11 +33,14 @@ class TextDownloader(SysLogBase):
     Args:
      url: where to download the file from
      target: path to output the file to
+     make_parents: whether to build the full directory path
     """
-    def __init__(self, url: str, target: Path) -> None:
+    def __init__(self, url: str, target: Path,
+                 make_parents: bool=True) -> None:
         super().__init__()
         self.url = url
         self.target = target
+        self.make_parents = make_parents
         self._directory_path = None
         self._download = None
         return
@@ -51,11 +54,11 @@ class TextDownloader(SysLogBase):
         if self._directory_path is None:
             self._directory_path = self.target.parent
             if not self._directory_path.is_dir():
-                self._directory_path.mkdir()
+                self._directory_path.mkdir(parents=self.make_parents)
         return self._directory_path
     
     @property
-    def download(self):
+    def download(self) -> str:
         """The text string
 
         downloads and saves the file if it doesn't exist        
@@ -72,6 +75,9 @@ class TextDownloader(SysLogBase):
                 with self.target.open("w") as writer:
                     writer.write(self._download)
         return self._download
+
+    def __repr__(self) -> str:
+        return f"TextDownloader({self.url}, {self.target})"
 #+end_src
 * The Zip Downloader
 #+begin_src python :noweb-ref zip-downloader
