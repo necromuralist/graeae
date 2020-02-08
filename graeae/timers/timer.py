@@ -100,5 +100,8 @@ class Timer:
 
     def __del__(self) -> None:
         """Stops the speaker"""
-        self.speaker.stop()
+        try:
+            self.speaker.stop()
+        except Exception as error:
+            print(f"unable to stop the speaker: {error}")
         return
