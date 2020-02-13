@@ -23,17 +23,20 @@ class EmbedBase:
      add_extension: add file-extension to file name
      create_folder: if the folder doesn't exist create it
      make_parents: if creating a folder add the missing folders in the path
+     ob_ipython: if true add org-headers to the output string
     """
     def __init__(self, plot: holoviews.core.overlay.NdOverlay,
                  file_name: str,
                  folder_path: PathType,
                  add_extension: bool=False,
                  create_folder: bool=True,
-                 make_parents: bool=True) -> None:
+                 make_parents: bool=True,
+                 ob_ipython: bool=False) -> None:
         self.plot = plot
         self.create_folder = create_folder
         self.make_parents = make_parents
         self.add_extension = add_extension
+        self.ob_ipython = ob_ipython
         self._folder_path = None
         self.folder_path = folder_path
         self._file_extension = None
@@ -100,11 +103,13 @@ class EmbedBase:
         """Saves the rendered file"""
         return
 
-    def __call__(self) -> None:
+    def __call__(self) -> str:
         """Creates the html and emits it"""
         self.save_figure()
-        print(self.export_string)
-        return
+        string = self.export_string if self.ob_ipython else self.source
+        if self.ob_ipython:
+            print(self.export_string)
+        return string
 
     def reset(self) -> None:
         """Sets the generated properties back to None"""
@@ -245,12 +250,12 @@ class EmbedHoloview(EmbedBase):
         print("[[file:{}][{}]]".format(message))
         return
 
-    def __call__(self) -> None:
+    def __call__(self) -> str:
         """Renders the plot"""
         super().__call__()
         if self.add_link:            
             print("\n[[file:{}.html][{}]]".format(self.file_name, self.link_message))
-        return
+        return self.source
 
 # because I keep forgetting
 EmbedHoloviews = EmbedHoloview
