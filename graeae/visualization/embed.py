@@ -92,10 +92,15 @@ class EmbedBase:
     def export_string(self) -> str:
         """The string to embed the figure into org-mode"""
         if self._export_string is None:
-            self._export_string = textwrap.dedent(
-                """#+begin_export html
-{}
-#+end_export""".format(self.source))
+            # this was the ob-ipython way, but it doesn't work so well with
+            # jupyter-emacs
+            # I suppose I should make it more flexible
+            # but ob-ipython looks dead
+            # self._export_string = textwrap.dedent(
+            #     """#+begin_export html
+            #     {}
+            #     #+end_export""".format(self.source))
+            self._export_string = self.source
         return self._export_string
 
     @abstractmethod
