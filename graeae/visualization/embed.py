@@ -24,6 +24,7 @@ class EmbedBase:
      create_folder: if the folder doesn't exist create it
      make_parents: if creating a folder add the missing folders in the path
      ob_ipython: if true add org-headers to the output string
+     debug: whether to emit messages
     """
     def __init__(self, plot: holoviews.core.overlay.NdOverlay,
                  file_name: str,
@@ -31,12 +32,15 @@ class EmbedBase:
                  add_extension: bool=False,
                  create_folder: bool=True,
                  make_parents: bool=True,
-                 ob_ipython: bool=False) -> None:
+                 ob_ipython: bool=False,
+                 debug: bool=False
+                 ) -> None:
         self.plot = plot
         self.create_folder = create_folder
         self.make_parents = make_parents
         self.add_extension = add_extension
         self.ob_ipython = ob_ipython
+        self.debug = debug
         self._folder_path = None
         self.folder_path = folder_path
         self._file_extension = None
@@ -61,7 +65,11 @@ class EmbedBase:
     def folder_path(self, path: PathType) -> None:
         """Sets the path to the javascript folder"""
         self._folder_path = Path(path)
+        if self.debug:
+            print(f"folder path: {self._folder_path}")
         if self.create_folder and  not self._folder_path.is_dir():
+            if self.debug:
+                print("Making folder path")
             self._folder_path.mkdir(parents=self.make_parents)
         return
 
@@ -80,6 +88,8 @@ class EmbedBase:
         name = Path(name)
         self._file_name = ("{}.{}".format(name.stem, self.file_extension)
                            if self.add_extension else name.stem)
+        if self.debug:
+            print(f"File Name: {self._file_name}")
         return
 
     @property
@@ -155,6 +165,8 @@ class EmbedBokeh(EmbedBase):
     def figure(self) -> bokeh.plotting.Figure:
         """The Figure to plot"""
         if self._figure is None:
+            if self.debug:
+                print("Creating the bokeh figure")
             if self.plot.__module__.startswith("holo"):
                 self._figure = holoviews.render(self.plot)
             else:
@@ -174,6 +186,8 @@ class EmbedBokeh(EmbedBase):
     def source(self) -> str:
         """The HTML to save"""
         if self._source is None:
+            if self.debug:
+                print("Creating the bokeh javascript and html")
             self._javascript, self._source = autoload_static(self.figure,
                                                              self.bokeh_source,
                                                              self.file_name)
@@ -184,6 +198,8 @@ class EmbedBokeh(EmbedBase):
     def javascript(self) -> str:
         """javascript to save"""
         if self._javascript is None:
+            if self.debug:
+                print("Creating the bokeh javascript and html")
             self._javascript, self._source = autoload_static(self.figure,
                                                              self.bokeh_source,
                                                              self.file_name)
@@ -192,7 +208,10 @@ class EmbedBokeh(EmbedBase):
 
     def save_figure(self) -> None:
         """Saves the javascript file"""
-        with open(self.folder_path.joinpath(self.file_name), "w") as writer:
+        path = self.folder_path.joinpath(self.file_name)
+        if self.debug:
+            print(f"Saving the figure to {path}")
+        with open(path, "w") as writer:
             writer.write(self.javascript)
         return
 
@@ -231,8 +250,11 @@ class EmbedHoloview(EmbedBase):
     
     def save_figure(self) -> None:
         """Saves the holoview"""
+        path = self.folder_path.joinpath(self.file_name)
+        if self.debug:
+            print(f"Saving holoviews Plot to {path}")
         holoviews.save(self.plot, 
-                       filename=self.folder_path.joinpath(self.file_name), 
+                       filename=path,
                        fmt="html")
         return
 
