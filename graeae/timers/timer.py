@@ -33,16 +33,18 @@ class Timer:
      prefix: something to add to the strings
      emit: if False, just stores the times
      output: callable to send the output to
+     container: Is this a container, not a full PC?
     """
     def __init__(self, speak: bool=True, message: str="All Done",
                  prefix: str = "",
-                 emit:bool=True, output=None) -> None:
+                 emit:bool=True, output=None, container: bool=True) -> None:
         self.speak = speak
         self.message = message
         self.emit = emit
         self.prefix = prefix
         if self.prefix:
             self.prefix = f"({prefix}) "
+        self.container = container
         self._output = output
         self._speaker = None
         self.started = None
@@ -53,7 +55,10 @@ class Timer:
     def output(self) -> Callable:
         """The object to output the strings"""
         if self._output is None:
-            self._output = SysLogBuilder(__name__).logger.info
+            if self.container:
+                self._output = print
+            else:
+                self._output = SysLogBuilder(__name__).logger.info
         return self._output
 
     @property
@@ -76,7 +81,7 @@ class Timer:
         if self.emit:
             self.output(f"{self.prefix}Ended: {self.ended}")
             self.output(f"{self.prefix}Elapsed: {self.ended - self.started}")
-        if SPEAKABLE and self.speak:
+        if SPEAKABLE and self.speak and not self.container:
             self(self.message)
         return
     
