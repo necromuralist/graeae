@@ -7,6 +7,9 @@ try:
     import pyttsx3
     SPEAKABLE = True
 except ImportError:
+    # pyttsx3 will install even when there's no package installed for
+    # it to run (meaning espeak), so this isn't really going to work
+    # unless you're careful not to install it
     print("pyttsx3 not available")
     SPEAKABLE = False
 
@@ -106,7 +109,8 @@ class Timer:
     def __del__(self) -> None:
         """Stops the speaker"""
         try:
-            self.speaker.stop()
+            if not self.container:
+                self.speaker.stop()
         except Exception as error:
             print(f"unable to stop the speaker: {error}")
         return
