@@ -59,6 +59,5 @@ def save_chart(chart: altair.Chart, name: str,
 <object type="text/html" data="{name}" style="width:100%" height={height}>
   <p>Figure Missing</p>
 </object>
-#+end_export
-""")
+#+end_export""")
     return
