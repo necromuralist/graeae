@@ -162,7 +162,7 @@ class EmbedBokeh(EmbedBase):
         return self._file_extension
 
     @property
-    def figure(self) -> bokeh.plotting.Figure:
+    def figure(self) -> bokeh.plotting.figure:
         """The Figure to plot"""
         if self._figure is None:
             if self.debug:
@@ -252,7 +252,7 @@ class EmbedHoloview(EmbedBase):
         """Saves the holoview"""
         path = self.folder_path.joinpath(self.file_name)
         if self.debug:
-            print(f"Saving holoviews Plot to {path}")
+            print(f"Saving holoviews plot to {path}")
         holoviews.save(self.plot, 
                        filename=path,
                        fmt="html")
