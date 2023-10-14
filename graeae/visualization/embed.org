@@ -189,7 +189,7 @@ class EmbedBokeh(EmbedBase):
         return self._file_extension
 
     @property
-    def figure(self) -> bokeh.plotting.Figure:
+    def figure(self) -> bokeh.plotting.figure:
         """The Figure to plot"""
         if self._figure is None:
             if self.debug:
