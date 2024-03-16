@@ -1,6 +1,7 @@
 # python
 from functools import partial
 from pathlib import Path
+from string import Template
 
 # pypi
 from tabulate import tabulate
@@ -8,6 +9,25 @@ from tabulate import tabulate
 import altair
 import pandas
 
+VEGA_EMBED_TEMPLATE = Template("""
+     (function(vegaEmbed) {
+       var spec = $JSON_SPEC;
+
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      } // showError
+      const el = document.getElementById('$DIV_ID');
+      vegaEmbed("#$DIV_ID", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+""")
 
 def output_path(slug: str) -> Path:
     """Setup the Folder path for posts
@@ -41,7 +61,10 @@ def print_org_table(frame: pandas.DataFrame) -> None:
 def save_chart(chart: altair.Chart, name: str,
                output_path: Path,
                height: int=600) -> None:
-    """Save and print the altair chart
+    """Save and print the altair chart HTML tag
+
+    This saves an entire HTML document (head and body) so it needs
+    to be embedded as an <object>
 
     Args:
      chart: altair chart to save
@@ -61,3 +84,35 @@ def save_chart(chart: altair.Chart, name: str,
 </object>
 #+end_export""")
     return
+
+def save_vega_embed(chart: altair.Chart,
+                    name: str,
+                    output_path: Path,
+                    div_id: str,
+                    json_indent: int=None) -> str:
+    """Save the vega chart as a javascript file
+
+    This will require that there's a <div> target for the chart and
+    a <script> tag to load the file we're going to save
+
+    Params:
+
+     - `chart`: altair chart to get the JSON spec from
+     - `name`: name to save the javascript file to
+     - `output_path`: path object to open the file
+     - `div_id`: ID of the div tag to hold the chart
+     - `json_indent`: amount json.dumps should indent to pretty-print the spec
+
+    Returns:
+     Name of the file with the saved javascript
+    """
+    SUFFIX = ".js"
+    file_name = name if name.endswith(SUFFIX) else name + SUFFIX
+    javascript = VEGA_EMBED_TEMPLATE.substitute(
+        JSON_SPEC=chart.to_json(indent=json_indent),
+        DIV_ID=div_id
+    )
+
+    with (output_path/file_name).open("w") as writer:
+        writer.write(javascript)
+    return file_name
