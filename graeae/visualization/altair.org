@@ -5,6 +5,8 @@
 
 <<javascript-saving-constants>>
 
+<<nikola-shortcode>>
+
 <<output-path>>
 
 
@@ -126,6 +128,19 @@ VEGA_EMBED_TEMPLATE = Template("""
 """)
 #+end_src
 
+** The Nikola Shortcode
+
+This is a template for the string to emit once the javascript is saved. It is a nikola shortcode that's being created elsewhere (probably Beach Pig Thigh).
+
+#+begin_src python :noweb-ref nikola-shortcode
+SHORTCODE = Template('{{% altairdiv source="$SOURCE" divid="$DIVID" %}}')
+#+end_src
+
+This is going to require two arguments to complet.
+
+ - ~SOURCE~ is the name of the javascript file that has the code for vega-embed
+ - ~DIVID~ is the ID of the HTML ~<div>~ that vega-embed is going to stick the chart into
+   
 ** The Save Vega Embed Javascript Function
 
 #+begin_src python :noweb-ref save-chart-javascript
@@ -148,7 +163,7 @@ def save_vega_embed(chart: altair.Chart,
      - `json_indent`: amount json.dumps should indent to pretty-print the spec
 
     Returns:
-     Name of the file with the saved javascript
+      Shortcode string to emit for nikola.
     """
     SUFFIX = ".js"
     file_name = name if name.endswith(SUFFIX) else name + SUFFIX
@@ -159,5 +174,5 @@ def save_vega_embed(chart: altair.Chart,
 
     with (output_path/file_name).open("w") as writer:
         writer.write(javascript)
-    return file_name
+    return SHORTCODE.substitute(SOURCE=file_name, DIVID=div_id)
 #+end_src

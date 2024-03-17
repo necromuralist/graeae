@@ -29,6 +29,8 @@ VEGA_EMBED_TEMPLATE = Template("""
     })(vegaEmbed);
 """)
 
+SHORTCODE = Template('{{% altairdiv source="$SOURCE" divid="$DIVID" %}}')
+
 def output_path(slug: str) -> Path:
     """Setup the Folder path for posts
 
@@ -104,7 +106,7 @@ def save_vega_embed(chart: altair.Chart,
      - `json_indent`: amount json.dumps should indent to pretty-print the spec
 
     Returns:
-     Name of the file with the saved javascript
+      Shortcode string to emit for nikola.
     """
     SUFFIX = ".js"
     file_name = name if name.endswith(SUFFIX) else name + SUFFIX
@@ -115,4 +117,4 @@ def save_vega_embed(chart: altair.Chart,
 
     with (output_path/file_name).open("w") as writer:
         writer.write(javascript)
-    return file_name
+    return SHORTCODE.substitute(SOURCE=file_name, DIVID=div_id)
