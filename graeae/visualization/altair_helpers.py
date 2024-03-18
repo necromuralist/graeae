@@ -91,7 +91,8 @@ def save_vega_embed(chart: altair.Chart,
                     name: str,
                     output_path: Path,
                     div_id: str,
-                    json_indent: int=None) -> str:
+                    json_indent: int=None,
+                    emit: bool=True) -> str:
     """Save the vega chart as a javascript file
 
     This will require that there's a <div> target for the chart and
@@ -104,7 +105,7 @@ def save_vega_embed(chart: altair.Chart,
      - `output_path`: path object to open the file
      - `div_id`: ID of the div tag to hold the chart
      - `json_indent`: amount json.dumps should indent to pretty-print the spec
-
+     - `emit`: if True, print the shortcode
     Returns:
       Shortcode string to emit for nikola.
     """
@@ -117,4 +118,8 @@ def save_vega_embed(chart: altair.Chart,
 
     with (output_path/file_name).open("w") as writer:
         writer.write(javascript)
-    return SHORTCODE.substitute(SOURCE=file_name, DIVID=div_id)
+
+    shortcode = SHORTCODE.substitute(SOURCE=file_name, DIVID=div_id)
+    if emit:
+        print(shortcode)
+    return shortcode
