@@ -73,10 +73,9 @@ h6,
 
 .navbar {
     background-image: none;
-    font-size: 18px;
-    font-family: "chunkfiveroman", "Cinzel", 'cinzel_decorativebold', "Arial Narrow Bold", sans-serif;
-    font-weight: 700;
-    padding: 0;
+  font-size: 18px;
+  font-family: "chunkfiveroman", "Cinzel", 'cinzel_decorativebold', "Arial Narrow Bold", sans-serif;
+  font-weight: 700;
 }
 
 .navbar-default .badge {
@@ -169,8 +168,95 @@ img {
     margin-right: auto;
 }
 
-/* getting the text in the header to not wrap */
-/* This is different depending on if you use duck-duck go or google */
-#search {
-    width: 35%;
+/* The header bar */
+.form-group {
+    margin-bottom: auto;
+}
+
+ .container {
+    max-width: 1224px;
+}
+
+ 
+ /* the canvas with the sketch (p5.js sets this class) */
+ .p5Canvas {
+     display: block;
+     margin-left: auto;
+     margin-right: auto;
+ }
+
+/* from https://css-tricks.com/snippets/css/simple-and-nice-blockquote-styling/ */
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
+}
+
+/* This styles blocks bounded by:
+#+begin_notecard
+#+end_notecard
+
+see: https://superuser.com/a/727068
+ */
+
+.notecard {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+}
+
+.notecard:before {
+  color: #ccc;
+   font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+.notecard p {
+  display: inline;
+}
+
+/* for the Creative Commons license icons */
+#license img {
+    display: inline-block;
+    height:20px;
+    margin-left: 3px;
+    margin-bottom:5px;
+          }
+
+footer {
+    text-align: center;
+}
+
+/* for the imaga attribution */
+
+.attribution {
+    text-align: center;
+}
+
+/* Center Headlines */
+
+.homecenter {
+    padding: 5% 0 10% 0;
+    text-align: center;
+}
+
+/* page titles */
+.p-name.entry-title {
+    text-align: center;
 }

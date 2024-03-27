@@ -36,7 +36,7 @@ import pandas
 * Output Path
 
 #+begin_src python :noweb-ref output-path
-def output_path(slug: str) -> Path:
+def output_path(slug: str, path_prefix: str="../files/posts/") -> Path:
     """Setup the Folder path for posts
 
     Args:
@@ -45,7 +45,7 @@ def output_path(slug: str) -> Path:
     Returns:
      path object for output folder
     """
-    OUTPUT_PATH = Path(f"files/posts/{slug}")
+    OUTPUT_PATH = Path(f"{path_prefix}{slug}")
     if not OUTPUT_PATH.is_dir():
         OUTPUT_PATH.mkdir()
     return OUTPUT_PATH

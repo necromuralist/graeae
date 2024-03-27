@@ -1,0 +1,43 @@
+## -*- coding: utf-8 -*-
+
+<%doc>
+Macro to add the p5 library to a page.
+
+To override the default source put the new source in ~GLOBAL_CONTEXT["p5_library_source"]~
+in the ~conf.py file. This will override the entire script tag so you can also set a file
+location if you choose not to use the CDN
+</%doc>
+<%def name="p5_scripts()">
+% if p5_library_source:
+  ${p5_library_source}
+% else:
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"
+          integrity="sha512-3RlxD1bW34eFKPwj9gUXEWtdSMC59QqIqHnD8O/NoTwSJhgxRizdcFVQhUMFyTp5RwLTDL0Lbcqtl8b7bFAzog=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+% endif
+</%def>
+
+<%doc>
+ macro for a single post
+ `post`: a Post object
+</%doc>
+<%def name="p5_ifpost(post)">
+    %if post.meta("has_p5"):
+        ${p5_scripts()}
+    %endif
+</%def>
+
+<%doc>
+  macro used by feed page with multiple posts (e.g. index.tmpl)
+ 'posts': list of Post objects
+ the ~post.meta~ object is a Functionary object
+ the metadata is in a dictionary that's in a dictionary
+ if you try ~post.meta.has_p5~ it will fail because you need the language you're using as a key
+   e.g. ~post.meta.en.has_p5~ 
+ To not refer to the langugage you need to call it like a function, passing in the "has_p5" key as an argument
+</%doc>
+<%def name="p5_scripts_ifposts(posts)">
+  %if any((post.meta("has_p5") or post.meta("template") == "p5.tmpl") for post in posts):
+      ${p5_scripts()}
+  %endif
+</%def>

@@ -1,0 +1,9 @@
+##  -*- coding: utf-8 -*-
+<%namespace name="p5" file='p5_helper.tmpl'/>
+
+<%inherit file='post.tmpl'/>
+
+<%block name="extra_head">
+  ${parent.extra_head()}
+  ${p5.p5_scripts()}
+</%block>
