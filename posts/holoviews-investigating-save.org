@@ -21,14 +21,69 @@
 * Starting
 
 #+begin_src python :results none
+from bokeh.sampledata.penguins import data
 import hvplot.pandas
-import pandas
 #+end_src
 
+This is the example on [[https://hvplot.holoviz.org/][hvplot's home page]].
+
 #+begin_src python :results none
-data = pandas.DataFrame(dict(a=[3, 4],b=[5, 6]))
-plot = data.hvplot()
+plot = data.hvplot.scatter(x="bill_length_mm", y="bill_depth_mm", by="species")
 #+end_src
+
+#+begin_src python :results output :exports both
+print(type(plot))
+print(plot.__module__)
+print(plot.__doc__)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+<class 'holoviews.core.overlay.NdOverlay'>
+holoviews.core.overlay
+params(sort=Boolean, cdims=Dict, kdims=List, vdims=List, group=String, label=String, name=String)
+
+    An NdOverlay allows a group of NdOverlay to be overlaid together. NdOverlay can
+    be indexed out of an overlay and an overlay is an iterable that iterates
+    over the contained layers.
+    
+[1;32mParameters of 'NdOverlay'
+=========================
+[0m
+[1;31mParameters changed from their default values are marked in red.[0m
+[1;36mSoft bound values are marked in cyan.[0m
+C/V= Constant/Variable, RO/RW = ReadOnly/ReadWrite, AN=Allow None
+
+[1;34mName            Value             Type     Bounds   Mode [0m
+
+group        'NdMapping'         String             C RW 
+label             ''             String             C RW 
+cdims       OrderedDict()         Dict              V RW 
+kdims   [Dimension('Element')]    List   (0, None)  C RW 
+vdims             []              List     (0, 0)   C RW 
+sort             True           Boolean    (0, 1)   V RW 
+
+[1;32mParameter docstrings:
+=====================[0m
+
+[1;34mgroup: A string describing the data wrapped by the object.[0m
+[1;31mlabel: Optional label describing the data, typically reflecting where[0m
+[1;31m       or how it was measured. The label should allow a specific[0m
+[1;31m       measurement or dataset to be referenced for a given group.[0m
+[1;34mcdims: The constant dimensions defined as a dictionary of Dimension:value[0m
+[1;34m       pairs providing additional dimension information about the object.[0m
+[1;34m       [0m
+[1;34m       Aliased with constant_dimensions.[0m
+[1;31mkdims: List of dimensions the NdOverlay can be indexed by.[0m
+[1;34mvdims: The value dimensions defined as the list of dimensions used to[0m
+[1;34m       describe the components of the data. If multiple value[0m
+[1;34m       dimensions are supplied, a particular value dimension may be[0m
+[1;34m       indexed by name after the key dimensions.[0m
+[1;34m       [0m
+[1;34m       Aliased with value_dimensions.[0m
+[1;31msort:  Whether the items should be sorted in the constructor.[0m
+#+end_example
+
 * Holoviews Save
 
 #+begin_src python :results none
